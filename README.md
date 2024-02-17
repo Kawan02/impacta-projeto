@@ -23,7 +23,7 @@ Para executar as migrações e atualizar as informações no banco de dados, bas
 ## Funcionalidades
 
 - Criar contatos de acordo com as informações que vem no Front-end.
-- Atualizar contato existente
+- Atualizar contato existente.
 - Excluir o contato pelo ID no banco de dados.
 - Excluir todos os contatos.
 - Tema Escuro ou Claro. O aplicativo pega o tema de acordo com o que está determinado no sistema do aparelho.
