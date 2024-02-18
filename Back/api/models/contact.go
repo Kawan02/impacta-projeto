@@ -9,6 +9,7 @@ type Contact struct {
 	Telephone string    `json:"telephone"`
 	Image     string    `json:"image"`
 	CreatedAt time.Time `json:"createdAt"`
-	Favorite  bool      `json:"favorite"`
+	UpdateAt  time.Time `json:"updateAt"`
+	Favorito  bool      `json:"favorito"`
 	Sexo      string    `json:"sexo"`
 }

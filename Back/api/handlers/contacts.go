@@ -27,8 +27,13 @@ func CreateContact(c echo.Context) error {
 		Telephone: inputContact.Telephone,
 		Image:     inputContact.Image,
 		CreatedAt: inputContact.CreatedAt,
-		Favorite:  inputContact.Favorite,
+		Favorito:  inputContact.Favorito,
 		Sexo:      inputContact.Sexo,
+	}
+
+	//Create book --> cria livro
+	if err := database.DB.Create(&contact).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	c.JSON(http.StatusOK, echo.Map{"Contato criado com sucesso!": contact})
@@ -38,7 +43,7 @@ func CreateContact(c echo.Context) error {
 // FindContacts retornará todos os livros do nosso banco de dados.
 func FindContacts(c echo.Context) error {
 	var contacts []models.Contact
-	if err := database.DB.Find(&contacts).Error; err != nil {
+	if err := database.DB.Order("nome").Find(&contacts).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
