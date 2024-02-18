@@ -1,3 +1,5 @@
+import 'package:app_contatos/src/views/home/pages/home.dart';
+import 'package:app_contatos/src/views/navigator/navigator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,16 +9,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Contatos',
+      title: "Contatos",
+      debugShowCheckedModeBanner: false,
+      locale: const Locale('pt', 'BR'),
+      // darkTheme: ThemeData.dark(),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue[800]!,
+        ),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const NavigatorPage(),
     );
   }
 }
