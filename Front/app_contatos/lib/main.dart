@@ -1,5 +1,5 @@
 import 'package:app_contatos/src/services/dependency_injection.dart';
-import 'package:app_contatos/src/views/navigator/navigator.dart';
+import 'package:app_contatos/src/views/navigator/pages/navigator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
