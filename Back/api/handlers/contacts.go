@@ -47,6 +47,6 @@ func FindContacts(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	c.JSON(http.StatusOK, echo.Map{"Listando todos os contatos": contacts})
+	c.JSON(http.StatusOK, contacts)
 	return nil
 }

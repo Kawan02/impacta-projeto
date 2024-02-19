@@ -17,10 +17,30 @@ class _NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: FloatingActionButton.small(
+              hoverColor: Colors.red.shade600,
+              backgroundColor: Colors.red.shade600,
+              splashColor: Colors.red.shade600,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              onPressed: () {
+                // Botão de excluir todos os contatos
+              },
+              tooltip: "Excluir todos os contatos?",
+              child: const Icon(Icons.delete),
+            ),
+          ),
+        ],
         title: const Text(
-          "Contatos",
+          "Agenda de Contatos",
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
         backgroundColor: Colors.grey[800],
       ),
       body: PageView(
@@ -44,7 +64,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        // backgroundColor: Colors.blue[800],
         backgroundColor: Colors.grey[800],
         unselectedItemColor: Colors.white.withAlpha(120),
         selectedItemColor: Colors.white,

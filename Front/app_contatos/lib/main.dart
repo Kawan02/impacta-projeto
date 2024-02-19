@@ -1,6 +1,7 @@
+import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
 import 'package:app_contatos/src/services/dependency_injection.dart';
-import 'package:app_contatos/src/views/navigator/pages/navigator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   DependecyInjection.init();
@@ -15,18 +16,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: "Contatos",
+      defaultTransition: Transition.native,
+      // translations: MyTranslations(),
+      locale: const Locale('pt', 'BR'),
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(),
       theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue[800]!,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue[800]!),
         useMaterial3: true,
       ),
-      home: const NavigatorPage(),
+      initialRoute: PagesRoutes.splashRoute,
+      getPages: AppPages.pages,
+      // home: const NavigatorPage(),
     );
   }
 }
