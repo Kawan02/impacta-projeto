@@ -48,6 +48,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
         backgroundColor: Colors.grey[800],
         unselectedItemColor: Colors.white.withAlpha(120),
         selectedItemColor: Colors.white,
+        elevation: 0,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
