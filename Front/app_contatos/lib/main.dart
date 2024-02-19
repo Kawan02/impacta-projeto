@@ -1,8 +1,12 @@
-import 'package:app_contatos/src/views/home/pages/home.dart';
+import 'package:app_contatos/src/services/dependency_injection.dart';
 import 'package:app_contatos/src/views/navigator/navigator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  DependecyInjection.init();
+
+  // WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -14,8 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Contatos",
       debugShowCheckedModeBanner: false,
-      locale: const Locale('pt', 'BR'),
-      // darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData.dark(),
       theme: ThemeData(
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         colorScheme: ColorScheme.fromSeed(

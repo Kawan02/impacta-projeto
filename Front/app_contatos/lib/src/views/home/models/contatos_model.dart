@@ -35,17 +35,15 @@ class ContatosModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['nome'] = nome;
-    data['sobrenome'] = sobrenome;
-    data['telephone'] = telephone;
-    data['image'] = image;
-    data['createdAt'] = createdAt;
-    data['updateAt'] = updateAt;
-    data['favorito'] = favorito;
-    data['sexo'] = sexo;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'nome': nome,
+        'sobrenome': sobrenome,
+        'telephone': telephone,
+        'image': image,
+        'createdAt': createdAt,
+        'updateAt': updateAt,
+        'favorito': favorito,
+        'sexo': sexo,
+      };
 }
