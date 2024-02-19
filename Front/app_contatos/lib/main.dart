@@ -2,11 +2,12 @@ import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
 import 'package:app_contatos/src/services/dependency_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  DependecyInjection.init();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // WidgetsFlutterBinding.ensureInitialized();
+  DependecyInjection.init();
 
   runApp(const MyApp());
 }
@@ -19,8 +20,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: "Contatos",
       defaultTransition: Transition.native,
-      // translations: MyTranslations(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       locale: const Locale('pt', 'BR'),
+      supportedLocales: const [Locale('pt', 'BR')],
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(),
       theme: ThemeData(

@@ -8,10 +8,3 @@ class DependecyInjection {
     Get.lazyPut<ContatosController>(() => ContatosController());
   }
 }
-
-// class SampleBind extends Bindings {
-//   @override
-//   void dependencies() {
-//     Get.lazyPut<ContatosController>(() => ContatosController());
-//   }
-// }
