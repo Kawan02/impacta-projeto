@@ -21,7 +21,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
           "Contatos",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: Colors.grey[800],
       ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -44,7 +44,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.blue[800],
+        // backgroundColor: Colors.blue[800],
+        backgroundColor: Colors.grey[800],
         unselectedItemColor: Colors.white.withAlpha(120),
         selectedItemColor: Colors.white,
         items: const [
