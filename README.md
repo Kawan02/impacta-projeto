@@ -8,7 +8,7 @@ Projeto de software para a faculdade de um aplicativo de agendas de contatos.
 
 ```bash
   Front-end: Flutter
-  Back-end: Golang
+  Back-end: Golang com echo e gorm
   Banco de dados: PostgreSQL
 ```
 
