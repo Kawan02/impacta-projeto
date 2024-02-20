@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
   final Widget? prefixIcon;
   final String? labelText;
   final String? hintText;
+  final String? initialValue;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
   final bool? isDense;
   final InputBorder? border;
   final bool autofocus;
+  final TextInputType? keyboardType;
   const CustomTextField({
     super.key,
-    required this.controller,
+    this.controller,
+    this.initialValue,
     this.inputFormatters,
     this.prefixIcon,
     this.labelText,
@@ -24,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     this.isDense,
     this.border,
     this.autofocus = false,
+    this.keyboardType,
   });
 
   @override
@@ -32,8 +36,9 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       controller: controller,
       inputFormatters: inputFormatters,
-      keyboardType: TextInputType.number,
+      keyboardType: keyboardType,
       autofocus: autofocus,
+      initialValue: initialValue,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         labelText: labelText,

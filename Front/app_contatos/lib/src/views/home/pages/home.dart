@@ -1,6 +1,7 @@
 import 'package:app_contatos/src/services/components/custom_text_form_field.dart';
 import 'package:app_contatos/src/services/load.dart';
 import 'package:app_contatos/src/views/home/controllers/contatos_controller.dart';
+import 'package:app_contatos/src/views/edit_contato/edit_contatos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 15, right: 10, left: 10),
                       child: Form(
                         key: _formKey,
                         child: CustomTextField(
@@ -96,40 +97,74 @@ class _HomePageState extends State<HomePage> {
                 return Expanded(
                   child: ListView.builder(
                     itemCount: controller.contatos.length,
+                    padding: const EdgeInsets.all(10),
+                    scrollDirection: Axis.vertical,
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       final contatos = controller.contatos[index];
 
-                      return ListTile(
-                        title: Text(
-                          "${contatos.nome!} ${contatos.sobrenome!}",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                      return Card(
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: imagem(contatos.image!),
+                        child: GestureDetector(
+                          onTap: () async {
+                            await Get.to(
+                              EditContatosPage(model: contatos),
+                              routeName: "/edit/contatos",
+                              curve: Easing.linear,
+                              transition: Transition.zoom,
+                            );
+                          },
+                          child: ListTile(
+                            title: Visibility(
+                              visible: contatos.sobrenome != null || contatos.sobrenome!.isNotEmpty,
+                              replacement: Text(
+                                contatos.nome!,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              child: Text(
+                                "${contatos.nome!} ${contatos.sobrenome!}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ),
-                          ),
-                        ),
-                        subtitle: Text(
-                          contatos.telephone!,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                        trailing: IconButton(
-                          onPressed: () async {
-                            // Botão de editar
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 25,
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: imagem(contatos.image!),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            subtitle: Text(
+                              contatos.telephone!,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            trailing: IconButton(
+                              onPressed: () async {
+                                // Get.toNamed("/edit/contato", arguments: [contatos]);
+                                await Get.to(
+                                  EditContatosPage(model: contatos),
+                                  routeName: "/edit/contatos",
+                                  curve: Easing.linear,
+                                  transition: Transition.zoom,
+                                );
+                                // Botão de editar
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -152,7 +187,6 @@ class _HomePageState extends State<HomePage> {
               ),
               onPressed: () {
                 // Botão de adicionar contatos
-                controller.fetchUsers();
               },
               tooltip: 'Adicionar contatos',
               child: const Icon(
