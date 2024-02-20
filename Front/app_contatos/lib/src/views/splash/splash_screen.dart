@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 4000), () async {
-      await Get.offAllNamed(PagesRoutes.navigatorRoute);
+      await Get.offAllNamed(PagesRoutes.baseRoute);
     });
   }
 

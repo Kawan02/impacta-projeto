@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 abstract class AppPages {
   static final pages = <GetPage>[
     GetPage(
-      name: PagesRoutes.navigatorRoute,
+      name: PagesRoutes.baseRoute,
       page: () => const NavigatorPage(),
     ),
     GetPage(
@@ -28,7 +28,6 @@ abstract class AppPages {
 abstract class PagesRoutes {
   static const String splashRoute = "/splash";
   static const String baseRoute = "/";
-  static const String navigatorRoute = "/";
   static const String favoritoRoute = "/favoritos";
   static const String homeRoute = "/home";
 }

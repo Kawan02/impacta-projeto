@@ -1,4 +1,5 @@
 import 'package:app_contatos/src/routes/api_routes.dart';
+import 'package:app_contatos/src/services/mensagerias/mensagem.dart';
 import 'package:app_contatos/src/views/home/models/contatos_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -9,14 +10,16 @@ class ContatosController extends GetxController {
 
   Future<void> fetchUsers() async {
     isLoading.value = true;
-    try {
-      final dio = Dio();
-      final response = await dio.get(ApiRoutes.getContatos);
+    final dio = Dio();
+    // final response = await dio.get(ApiRoutes.getContatos);
+    await dio.get(ApiRoutes.getContatos).then((response) {
       final List<dynamic> jsonList = response.data;
       contatos.assignAll(jsonList.map((json) => ContatosModel.fromJson(json)).toList());
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+      // isLoading.value = false;
+    }, onError: (error) {
+      mensageria(title: "Atenção", message: error.toString(), isError: true);
+      // isLoading.value = false;
+    });
     isLoading.value = false;
   }
 }
