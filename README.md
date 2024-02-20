@@ -26,5 +26,6 @@ Para executar as migrações e atualizar as informações no banco de dados, bas
 - Atualizar contato existente.
 - Excluir o contato pelo ID no banco de dados.
 - Excluir todos os contatos.
-- Buscar por nome.
+- Buscar por nome e ou telefone.
+- Exibir todos os contatos.
 - Exibir listas de contatos do seus favoritos.
