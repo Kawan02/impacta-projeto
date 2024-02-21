@@ -1,3 +1,4 @@
+import 'package:app_contatos/src/views/add_contato/pages/add_contato.dart';
 import 'package:app_contatos/src/views/home/pages/favoritos.dart';
 import 'package:app_contatos/src/views/home/pages/home.dart';
 import 'package:app_contatos/src/views/navigator/pages/navigator.dart';
@@ -7,20 +8,24 @@ import 'package:get/get.dart';
 abstract class AppPages {
   static final pages = <GetPage>[
     GetPage(
+      name: PagesRoutes.splashRoute,
+      page: () => const SplashScreen(),
+    ),
+    GetPage(
       name: PagesRoutes.baseRoute,
       page: () => const NavigatorPage(),
     ),
     GetPage(
       name: PagesRoutes.homeRoute,
-      page: () => const HomePage(),
+      page: () => HomePage(),
+    ),
+    GetPage(
+      name: PagesRoutes.addContatoRoute,
+      page: () => const AddContatosPage(),
     ),
     GetPage(
       name: PagesRoutes.favoritoRoute,
       page: () => const FavoritosPage(),
-    ),
-    GetPage(
-      name: PagesRoutes.splashRoute,
-      page: () => const SplashScreen(),
     ),
   ];
 }
@@ -30,4 +35,5 @@ abstract class PagesRoutes {
   static const String baseRoute = "/";
   static const String favoritoRoute = "/favoritos";
   static const String homeRoute = "/home";
+  static const String addContatoRoute = "/adicionar/contato";
 }

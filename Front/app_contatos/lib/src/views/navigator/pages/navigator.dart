@@ -46,9 +46,9 @@ class _NavigatorPageState extends State<NavigatorPage> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: const [
+        children: [
           HomePage(),
-          FavoritosPage(),
+          const FavoritosPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

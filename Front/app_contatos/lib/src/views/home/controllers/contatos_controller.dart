@@ -11,15 +11,25 @@ class ContatosController extends GetxController {
   Future<void> fetchUsers() async {
     isLoading.value = true;
     final dio = Dio();
-    // final response = await dio.get(ApiRoutes.getContatos);
+
     await dio.get(ApiRoutes.getContatos).then((response) {
       final List<dynamic> jsonList = response.data;
       contatos.assignAll(jsonList.map((json) => ContatosModel.fromJson(json)).toList());
-      // isLoading.value = false;
     }, onError: (error) {
       mensageria(title: "Atenção", message: error.toString(), isError: true);
-      // isLoading.value = false;
     });
     isLoading.value = false;
   }
+
+  // @override
+  // void onInit() {
+  //   fetchUsers();
+  //   super.onInit();
+  // }
+
+  // @override
+  // void onClose() {
+  //   fetchUsers();
+  //   super.onClose();
+  // }
 }

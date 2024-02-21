@@ -7,7 +7,9 @@ class ContatosModel {
   String? createdAt;
   String? updateAt;
   bool? favorito;
-  String? sexo;
+  String? dtaNascimento;
+  String? nota;
+  String? amigo;
 
   ContatosModel({
     this.id,
@@ -18,7 +20,9 @@ class ContatosModel {
     this.createdAt,
     this.updateAt,
     this.favorito,
-    this.sexo,
+    this.dtaNascimento,
+    this.nota,
+    this.amigo,
   });
 
   factory ContatosModel.fromJson(Map<String, dynamic> json) {
@@ -31,7 +35,9 @@ class ContatosModel {
       createdAt: json['createdAt'],
       updateAt: json['updateAt'],
       favorito: json['favorito'],
-      sexo: json['sexo'],
+      dtaNascimento: json['dtaNascimento'],
+      nota: json['nota'],
+      amigo: json['amigo'],
     );
   }
 
@@ -44,6 +50,8 @@ class ContatosModel {
         'createdAt': createdAt,
         'updateAt': updateAt,
         'favorito': favorito,
-        'sexo': sexo,
+        'dtaNascimento': dtaNascimento,
+        'nota': nota,
+        'amigo': amigo,
       };
 }
