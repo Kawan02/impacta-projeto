@@ -81,7 +81,9 @@ class HomePage extends StatelessWidget {
           GetX<ContatosController>(
             init: Get.find<ContatosController>(),
             initState: (state) {
-              state.controller?.fetchUsers();
+              Future.delayed(Duration.zero, () {
+                state.controller?.fetchUsers();
+              });
             },
             builder: (controller) {
               if (controller.isLoading.value) {
@@ -202,27 +204,22 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: GetBuilder<ContatosController>(
-        init: Get.find<ContatosController>(),
-        builder: (controller) {
-          return FloatingActionButton.small(
-            heroTag: "btnAddContato",
-            hoverColor: Colors.blue[800],
-            backgroundColor: Colors.blue[800],
-            splashColor: Colors.blue[800],
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            // Botão de adicionar contatos
-            onPressed: () async => await Get.toNamed("/adicionar/contato"),
-            tooltip: 'Adicionar contatos',
-            child: const Icon(
-              Icons.person_add_rounded,
-              color: Colors.white,
-            ),
-          );
-        },
+      floatingActionButton: FloatingActionButton.small(
+        heroTag: "btnAddContato",
+        hoverColor: Colors.blue[800],
+        backgroundColor: Colors.blue[800],
+        splashColor: Colors.blue[800],
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        // Botão de adicionar contatos
+        onPressed: () async => await Get.toNamed("/adicionar/contato"),
+        tooltip: 'Adicionar contatos',
+        child: const Icon(
+          Icons.person_add_rounded,
+          color: Colors.white,
+        ),
       ),
     );
   }

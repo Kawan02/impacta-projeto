@@ -20,16 +20,4 @@ class ContatosController extends GetxController {
     });
     isLoading.value = false;
   }
-
-  // @override
-  // void onInit() {
-  //   fetchUsers();
-  //   super.onInit();
-  // }
-
-  // @override
-  // void onClose() {
-  //   fetchUsers();
-  //   super.onClose();
-  // }
 }
