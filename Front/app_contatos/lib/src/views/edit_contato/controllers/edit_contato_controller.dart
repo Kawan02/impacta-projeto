@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -19,12 +21,9 @@ class EditContatoController extends GetxController {
 
     if (pickedFile != null) {
       isLoading.value = true;
-      print(pickedFile.path);
       final bytes = await pickedFile.readAsBytes();
-      // _base64Image = base64Encode(bytes);
-      image.value = pickedFile.path;
+      image.value = base64Encode(bytes);
     }
     isLoading.value = false;
-    update(["imagem"]);
   }
 }

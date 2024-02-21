@@ -22,16 +22,18 @@ func CreateContact(c echo.Context) error {
 
 	// Cria um contato
 	contact := models.Contact{
-		Nome:      inputContact.Nome,
-		Sobrenome: inputContact.Sobrenome,
-		Telephone: inputContact.Telephone,
-		Image:     inputContact.Image,
-		CreatedAt: inputContact.CreatedAt,
-		Favorito:  inputContact.Favorito,
-		Sexo:      inputContact.Sexo,
+		Nome:             inputContact.Nome,
+		Sobrenome:        inputContact.Sobrenome,
+		Telephone:        inputContact.Telephone,
+		Image:            inputContact.Image,
+		CreatedAt:        inputContact.CreatedAt,
+		Favorito:         inputContact.Favorito,
+		DataDeNascimento: inputContact.DataDeNascimento,
+		Notas:            inputContact.Notas,
+		Amigos:           inputContact.Amigos,
 	}
 
-	//Create book --> cria livro
+	//Create --> cria um contato
 	if err := database.DB.Create(&contact).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -40,7 +42,7 @@ func CreateContact(c echo.Context) error {
 	return nil
 }
 
-// FindContacts retornará todos os livros do nosso banco de dados.
+// FindContacts retornará todos os contatos do nosso banco de dados.
 func FindContacts(c echo.Context) error {
 	var contacts []models.Contact
 	if err := database.DB.Order("nome").Find(&contacts).Error; err != nil {

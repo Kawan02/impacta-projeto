@@ -14,6 +14,11 @@ class CustomTextField extends StatelessWidget {
   final InputBorder? border;
   final bool autofocus;
   final TextInputType? keyboardType;
+  final int? maxLines;
+  final int? minLines;
+  final int? maxLength;
+  final EdgeInsetsGeometry? contentPadding;
+  final AutovalidateMode? autovalidateMode;
   const CustomTextField({
     super.key,
     this.controller,
@@ -28,6 +33,11 @@ class CustomTextField extends StatelessWidget {
     this.border,
     this.autofocus = false,
     this.keyboardType,
+    this.maxLines,
+    this.minLines,
+    this.maxLength,
+    this.contentPadding,
+    this.autovalidateMode,
   });
 
   @override
@@ -37,10 +47,15 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      autovalidateMode: autovalidateMode,
       autofocus: autofocus,
       initialValue: initialValue,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
+        contentPadding: contentPadding,
         labelText: labelText,
         hintText: hintText,
         isDense: true,
