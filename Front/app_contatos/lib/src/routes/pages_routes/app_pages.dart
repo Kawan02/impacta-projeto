@@ -21,7 +21,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: PagesRoutes.addContatoRoute,
-      page: () => const AddContatosPage(),
+      page: () => AddContatosPage(),
     ),
     GetPage(
       name: PagesRoutes.favoritoRoute,

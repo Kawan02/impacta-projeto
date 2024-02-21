@@ -1,27 +1,22 @@
 import 'dart:convert';
-
 import 'package:app_contatos/src/services/components/custom_text_form_field.dart';
 import 'package:app_contatos/src/services/load.dart';
 import 'package:app_contatos/src/views/add_contato/controllers/add_contato_controller.dart';
 import 'package:app_contatos/src/views/home/models/contatos_model.dart';
-import 'package:app_contatos/src/views/home/pages/home.dart';
-import 'package:app_contatos/src/views/navigator/pages/navigator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddContatosPage extends StatelessWidget {
-  const AddContatosPage({super.key});
+  AddContatosPage({super.key});
 
-  static List<String> favoritosOpcoes = ["Sim", "Não"];
-  static TextEditingController controllerNome = TextEditingController();
-  static TextEditingController controllerSobrenome = TextEditingController();
-  static TextEditingController controllerTelefone = TextEditingController();
-  static TextEditingController controllerDtaNascimento = TextEditingController();
-  static TextEditingController controllerNotas = TextEditingController();
+  final List<String> favoritosOpcoes = ["Sim", "Não"];
+  final TextEditingController controllerNome = TextEditingController();
+  final TextEditingController controllerSobrenome = TextEditingController();
+  final TextEditingController controllerTelefone = TextEditingController();
+  final TextEditingController controllerDtaNascimento = TextEditingController();
+  final TextEditingController controllerNotas = TextEditingController();
 
-  static final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   ImageProvider<Object> imagem(String? imagem) {
     if (imagem == null || imagem.isEmpty) {
@@ -63,75 +58,77 @@ class AddContatosPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                Container(
-                    padding: const EdgeInsets.only(top: 15, bottom: 20),
-                    width: size.width * 0.5,
-                    height: size.height * 0.3,
-                    child: GetX<AddContatoController>(
-                      builder: (controller) {
-                        if (controller.isLoading.value) return const Load();
-
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              alignment: Alignment.center,
-                              image: imagem(controller.image.value),
-                            ),
-                          ),
-                        );
-                      },
-                    )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Ir na galeria
-                    GetBuilder<AddContatoController>(
-                      init: Get.find<AddContatoController>(),
-                      builder: (controller) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: FloatingActionButton.small(
-                            heroTag: "btnAddFoto",
-                            backgroundColor: Colors.blue[800],
-                            tooltip: "Adicionar foto",
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Icon(Icons.photo_library_rounded),
-                            onPressed: () async => await controller.getImagem(),
-                          ),
-                        );
-                      },
-                    ),
-                    // Remover foto
-                    GetBuilder<AddContatoController>(
-                      init: Get.find<AddContatoController>(),
-                      builder: (controller) {
-                        return FloatingActionButton.small(
-                          heroTag: "btnRemoveFoto",
-                          backgroundColor: Colors.red[800],
-                          tooltip: "Remover foto",
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Icon(Icons.delete),
-                          onPressed: () => controller.image.value = "",
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
             Expanded(
               child: ListView(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
+                shrinkWrap: true,
                 children: [
+                  // Foto de perfil
+                  Column(
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.only(top: 15, bottom: 20),
+                          width: size.width * 0.5,
+                          height: size.height * 0.3,
+                          child: GetX<AddContatoController>(
+                            builder: (controller) {
+                              // if (controller.isLoading.value) return const Load();
+
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    alignment: Alignment.center,
+                                    image: imagem(controller.image.value),
+                                  ),
+                                ),
+                              );
+                            },
+                          )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Ir na galeria
+                          GetBuilder<AddContatoController>(
+                            init: Get.find<AddContatoController>(),
+                            builder: (controller) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: FloatingActionButton.small(
+                                  heroTag: "btnAddFoto",
+                                  backgroundColor: Colors.blue[800],
+                                  tooltip: "Adicionar foto",
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Icon(Icons.photo_library_rounded),
+                                  onPressed: () async => await controller.getImagem(),
+                                ),
+                              );
+                            },
+                          ),
+                          // Remover foto
+                          GetBuilder<AddContatoController>(
+                            init: Get.find<AddContatoController>(),
+                            builder: (controller) {
+                              return FloatingActionButton.small(
+                                heroTag: "btnRemoveFoto",
+                                backgroundColor: Colors.red[800],
+                                tooltip: "Remover foto",
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Icon(Icons.delete),
+                                onPressed: () => controller.image.value = "",
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   // Nome
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
@@ -286,13 +283,11 @@ class AddContatosPage extends StatelessWidget {
                     child: GetBuilder<AddContatoController>(
                       init: Get.find<AddContatoController>(),
                       builder: (controller) {
-                        if (controller.isLoading.value) return const Load();
-
                         return SizedBox(
                           height: 45,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: controller.isLoading.value ? Colors.grey : Colors.blue[800],
+                              backgroundColor: Colors.blue[800],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
