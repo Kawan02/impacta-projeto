@@ -19,7 +19,10 @@ func ConnectDatabase() {
 		log.Panic("Falha ao conectar no banco de dados.", err.Error())
 	}
 
-	database.AutoMigrate(&models.Contact{})
+	err = database.AutoMigrate(&models.Contact{})
+	if err != nil {
+		return
+	}
 
 	DB = database
 
