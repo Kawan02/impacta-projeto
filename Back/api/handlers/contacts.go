@@ -45,7 +45,7 @@ func CreateContact(c echo.Context) error {
 // FindContacts retornará todos os contatos do nosso banco de dados.
 func FindContacts(c echo.Context) error {
 	var contacts []models.Contact
-	if err := database.DB.Order("nome").Find(&contacts).Error; err != nil {
+	if err := database.DB.Find(&contacts).Order("nome").Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
