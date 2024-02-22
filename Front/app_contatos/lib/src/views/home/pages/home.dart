@@ -6,7 +6,6 @@ import 'package:app_contatos/src/views/add_contato/controllers/add_contato_contr
 import 'package:app_contatos/src/views/home/controllers/contatos_controller.dart';
 import 'package:app_contatos/src/views/edit_contato/pages/edit_contatos.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,16 +13,7 @@ class HomePage extends StatelessWidget {
 
   final textController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-
-  Future<void> consultar() async {
-    // FocusScope.of(context).unfocus();
-
-    if (_formKey.currentState!.validate()) {
-      return;
-    }
-
-    // return;
-  }
+  final controller = Get.find<ContatosController>();
 
   ImageProvider<Object> imagem(String? imagem) {
     if (imagem == null || imagem.isEmpty) return const AssetImage("assets/imgs/foto.png");
@@ -46,35 +36,32 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 15, right: 10, left: 10),
                     child: Form(
                       key: _formKey,
-                      child: CustomTextField(
-                        controller: textController,
-                        validator: (controller) {
-                          if (controller == null || controller.isEmpty) {
-                            return "Esse campo é obrigatorio";
-                          }
+                      child: Obx(() {
+                        return CustomTextField(
+                          controller: textController,
+                          validator: (controller) {
+                            if (controller == null || controller.isEmpty) {
+                              return "Esse campo é obrigatorio";
+                            }
 
-                          return null;
-                        },
-                        prefixIcon: const Icon(Icons.person),
-                        labelText: "Pesquise por nome",
-                        hintText: "Digite um nome aqui...",
-                        suffixIcon: IconButton(
-                          padding: const EdgeInsets.only(right: 5),
-                          onPressed: () async {
-                            await consultar();
+                            return null;
                           },
-                          icon: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                            size: 25,
-                            semanticLabel: "Pesquisar",
+                          prefixIcon: const Icon(Icons.person),
+                          labelText: "Pesquisar",
+                          hintText: "Pesquise por nome, sobrenome ou telefone",
+                          onChanged: (value) async => await controller.filterContacts(value),
+                          suffixIcon: controller.isLoadingFilter.value
+                              ? Container(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: const CircularProgressIndicator.adaptive(),
+                                )
+                              : null,
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
                           ),
-                        ),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      ),
+                        );
+                      }),
                     ),
                   ),
                 ),
@@ -126,7 +113,7 @@ class HomePage extends StatelessWidget {
                               onTap: () async {
                                 await Get.to(
                                   EditContatosPage(model: contatos),
-                                  routeName: "/edit/contatos",
+                                  routeName: PagesRoutes.editContatoRoute,
                                   curve: Easing.linear,
                                   transition: Transition.zoom,
                                 );
@@ -187,7 +174,7 @@ class HomePage extends StatelessWidget {
                                   onPressed: () async {
                                     await Get.to(
                                       EditContatosPage(model: contatos),
-                                      routeName: "/edit/contatos",
+                                      routeName: PagesRoutes.editContatoRoute,
                                       curve: Easing.linear,
                                       transition: Transition.zoom,
                                     );
