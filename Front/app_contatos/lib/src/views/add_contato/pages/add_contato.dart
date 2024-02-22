@@ -46,6 +46,8 @@ class AddContatosPage extends StatelessWidget {
     }
   }
 
+  final controller = Get.find<AddContatoController>();
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -288,30 +290,27 @@ class AddContatosPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
-                    child: GetBuilder<AddContatoController>(
-                      init: Get.find<AddContatoController>(),
-                      builder: (controller) {
-                        if (controller.isLoading.value) return const Load();
-
-                        return SizedBox(
-                          height: 45,
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue[800],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            onPressed: () async => await criarContato(controller),
-                            icon: const Icon(Icons.add),
-                            label: const Text(
-                              "Criar contato",
-                              style: TextStyle(color: Colors.white),
+                    child: Obx(() {
+                      return SizedBox(
+                        height: 45,
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: controller.isLoading.value ? Colors.grey : Colors.blue[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                          onPressed: controller.isLoading.value ? null : () async => await criarContato(controller),
+                          icon: const Icon(Icons.add),
+                          label: controller.isLoading.value
+                              ? const Load()
+                              : const Text(
+                                  "Criar contato",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        ),
+                      );
+                    }),
                   ),
                 ],
               ),
