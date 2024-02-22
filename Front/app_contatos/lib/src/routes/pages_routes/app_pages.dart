@@ -36,4 +36,5 @@ abstract class PagesRoutes {
   static const String favoritoRoute = "/favoritos";
   static const String homeRoute = "/home";
   static const String addContatoRoute = "/adicionar/contato";
+  static const String editContatoRoute = "/edit/contatos";
 }
