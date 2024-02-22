@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:app_contatos/src/routes/api_routes.dart';
 import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
+import 'package:app_contatos/src/services/components/valid_size_image.dart';
 import 'package:app_contatos/src/services/mensagerias/mensagem.dart';
 import 'package:app_contatos/src/views/home/models/contatos_model.dart';
 import 'package:dio/dio.dart';
@@ -38,10 +39,17 @@ class AddContatoController extends GetxController {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      var result = await validFileSize(filepath: pickedFile);
+      if (result != true) {
+        mensageria(title: "Atenção", message: "Arquivo maior que o limite permitido de (2mb)", isError: true);
+        return;
+      }
+
       isLoading.value = true;
       final bytes = await pickedFile.readAsBytes();
       image.value = base64Encode(bytes);
     }
+
     isLoading.value = false;
   }
 
