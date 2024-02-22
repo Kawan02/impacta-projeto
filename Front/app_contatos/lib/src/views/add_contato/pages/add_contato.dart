@@ -5,6 +5,7 @@ import 'package:app_contatos/src/views/add_contato/controllers/add_contato_contr
 import 'package:app_contatos/src/views/home/models/contatos_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AddContatosPage extends StatelessWidget {
   AddContatosPage({super.key});
@@ -15,6 +16,8 @@ class AddContatosPage extends StatelessWidget {
   final TextEditingController controllerTelefone = TextEditingController();
   final TextEditingController controllerDtaNascimento = TextEditingController();
   final TextEditingController controllerNotas = TextEditingController();
+  final celularFormatter = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r"[0-9]")});
+  final dataFormatter = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r"[0-9]")});
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -26,7 +29,7 @@ class AddContatosPage extends StatelessWidget {
     return MemoryImage(base64Decode(imagem));
   }
 
-  Future<void> createContato(AddContatoController controller) async {
+  Future<void> criarContato(AddContatoController controller) async {
     ContatosModel model = ContatosModel(
       nome: controllerNome.text,
       favorito: controller.favorito.value,
@@ -38,7 +41,9 @@ class AddContatosPage extends StatelessWidget {
       nota: controllerNotas.text,
     );
 
-    await controller.createContato(model);
+    if (_formKey.currentState!.validate()) {
+      await controller.createContato(model);
+    }
   }
 
   @override
@@ -73,7 +78,7 @@ class AddContatosPage extends StatelessWidget {
                           height: size.height * 0.3,
                           child: GetX<AddContatoController>(
                             builder: (controller) {
-                              // if (controller.isLoading.value) return const Load();
+                              if (controller.isLoading.value) return const Load();
 
                               return Container(
                                 decoration: BoxDecoration(
@@ -115,7 +120,7 @@ class AddContatosPage extends StatelessWidget {
                             builder: (controller) {
                               return FloatingActionButton.small(
                                 heroTag: "btnRemoveFoto",
-                                backgroundColor: Colors.red[800],
+                                backgroundColor: Colors.red.shade600,
                                 tooltip: "Remover foto",
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
@@ -131,7 +136,7 @@ class AddContatosPage extends StatelessWidget {
                   ),
                   // Nome
                   Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
+                    padding: const EdgeInsets.only(top: 40, bottom: 30, left: 10, right: 10),
                     child: CustomTextField(
                       controller: controllerNome,
                       keyboardType: TextInputType.text,
@@ -154,7 +159,7 @@ class AddContatosPage extends StatelessWidget {
                   ),
                   // Sobrenome
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                     child: CustomTextField(
                       controller: controllerSobrenome,
                       keyboardType: TextInputType.text,
@@ -170,10 +175,11 @@ class AddContatosPage extends StatelessWidget {
 
                   // Data de nascimento
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                     child: CustomTextField(
                       controller: controllerDtaNascimento,
                       keyboardType: TextInputType.text,
+                      inputFormatters: [dataFormatter],
                       prefixIcon: const Icon(Icons.calendar_month),
                       labelText: "Data",
                       hintText: "Digite a data de nascimento",
@@ -199,10 +205,11 @@ class AddContatosPage extends StatelessWidget {
 
                   // Telefone
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                     child: CustomTextField(
                       controller: controllerTelefone,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [celularFormatter],
                       validator: (controller) {
                         if (controller == null || controller.isEmpty) {
                           return "O telefone é obrigátorio";
@@ -226,7 +233,7 @@ class AddContatosPage extends StatelessWidget {
                     init: Get.find<AddContatoController>(),
                     builder: (controller) {
                       return DropdownButtonFormField<String>(
-                        padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                        padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                         elevation: 0,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         borderRadius: BorderRadius.circular(18),
@@ -260,7 +267,6 @@ class AddContatosPage extends StatelessWidget {
                       );
                     },
                   ),
-
                   // Notas
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
@@ -273,6 +279,8 @@ class AddContatosPage extends StatelessWidget {
                       maxLines: 10,
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                      scrollPhysics: const BouncingScrollPhysics(),
+                      alignLabelWithHint: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
@@ -283,6 +291,8 @@ class AddContatosPage extends StatelessWidget {
                     child: GetBuilder<AddContatoController>(
                       init: Get.find<AddContatoController>(),
                       builder: (controller) {
+                        if (controller.isLoading.value) return const Load();
+
                         return SizedBox(
                           height: 45,
                           child: ElevatedButton.icon(
@@ -292,13 +302,12 @@ class AddContatosPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(18),
                               ),
                             ),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await createContato(controller);
-                              }
-                            },
+                            onPressed: () async => await criarContato(controller),
                             icon: const Icon(Icons.add),
-                            label: const Text("Criar contato"),
+                            label: const Text(
+                              "Criar contato",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         );
                       },

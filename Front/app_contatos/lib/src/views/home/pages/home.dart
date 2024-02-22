@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
 import 'package:app_contatos/src/services/components/custom_text_form_field.dart';
 import 'package:app_contatos/src/services/load.dart';
+import 'package:app_contatos/src/views/add_contato/controllers/add_contato_controller.dart';
 import 'package:app_contatos/src/views/home/controllers/contatos_controller.dart';
 import 'package:app_contatos/src/views/edit_contato/pages/edit_contatos.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
@@ -138,23 +141,27 @@ class HomePage extends StatelessWidget {
                                   ),
                                   child: Row(
                                     children: [
-                                      Text(
-                                        "${contatos.nome!} ${contatos.sobrenome!}",
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
+                                      Flexible(
+                                        child: Text(
+                                          "${contatos.nome!} ${contatos.sobrenome!}",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
                                       ),
                                       // Favoritos
-                                      // GetX<AddContatoController>(
-                                      //   init: Get.find<AddContatoController>(),
-                                      //   builder: (controller) {
-                                      //     return GestureDetector(
-                                      //         child: Icon(
-                                      //           Icons.star,
-                                      //           color: !controller.favorito.value ? Colors.white : Colors.yellow,
-                                      //         ),
-                                      //         onTap: () {});
-                                      //   },
-                                      // ),
+                                      GetX<AddContatoController>(
+                                        init: Get.find<AddContatoController>(),
+                                        builder: (controller) {
+                                          return GestureDetector(
+                                            child: Icon(
+                                              Icons.star,
+                                              size: 20,
+                                              color: !controller.favorito.value ? Colors.white : Colors.yellow,
+                                            ),
+                                            onTap: () async => await controller.favoritos(),
+                                          );
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -214,7 +221,7 @@ class HomePage extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
         ),
         // Botão de adicionar contatos
-        onPressed: () async => await Get.toNamed("/adicionar/contato"),
+        onPressed: () async => await Get.toNamed(PagesRoutes.addContatoRoute),
         tooltip: 'Adicionar contatos',
         child: const Icon(
           Icons.person_add_rounded,

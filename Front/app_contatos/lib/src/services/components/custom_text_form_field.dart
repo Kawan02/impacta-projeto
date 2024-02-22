@@ -19,6 +19,8 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final EdgeInsetsGeometry? contentPadding;
   final AutovalidateMode? autovalidateMode;
+  final ScrollPhysics? scrollPhysics;
+  final bool? alignLabelWithHint;
   const CustomTextField({
     super.key,
     this.controller,
@@ -38,6 +40,8 @@ class CustomTextField extends StatelessWidget {
     this.maxLength,
     this.contentPadding,
     this.autovalidateMode,
+    this.scrollPhysics,
+    this.alignLabelWithHint,
   });
 
   @override
@@ -51,10 +55,12 @@ class CustomTextField extends StatelessWidget {
       minLines: minLines,
       maxLength: maxLength,
       autovalidateMode: autovalidateMode,
+      scrollPhysics: scrollPhysics,
       autofocus: autofocus,
       initialValue: initialValue,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
+        alignLabelWithHint: alignLabelWithHint,
         contentPadding: contentPadding,
         labelText: labelText,
         hintText: hintText,
