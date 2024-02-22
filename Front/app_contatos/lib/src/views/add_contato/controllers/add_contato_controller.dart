@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:app_contatos/src/routes/api_routes.dart';
+import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
 import 'package:app_contatos/src/services/mensagerias/mensagem.dart';
 import 'package:app_contatos/src/views/home/models/contatos_model.dart';
 import 'package:dio/dio.dart';
@@ -7,10 +8,10 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddContatoController extends GetxController {
-  RxString selectedItem = "".obs;
-  RxString image = "".obs;
-  RxBool isLoading = false.obs;
-  RxBool favorito = false.obs;
+  final RxString selectedItem = "".obs;
+  final RxString image = "".obs;
+  final RxBool isLoading = false.obs;
+  final RxBool favorito = false.obs;
 
   Future<void> createContato(ContatosModel model) async {
     isLoading.value = true;
@@ -18,7 +19,8 @@ class AddContatoController extends GetxController {
     await dio.post(ApiRoutes.postContatos, data: model.toJson()).then((value) async {
       if (value.statusCode == 200) {
         mensageria(title: "Atenção", message: "Contato criado com sucesso!", isError: false);
-        await Get.toNamed("/");
+
+        await Get.offAllNamed(PagesRoutes.baseRoute);
       }
     }, onError: (error) {
       mensageria(title: "Atenção", message: error.toString(), isError: true);
@@ -43,7 +45,7 @@ class AddContatoController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> favoritos(ContatosModel model) async {
+  Future<void> favoritos() async {
     favorito.value = !favorito.value;
   }
 }
