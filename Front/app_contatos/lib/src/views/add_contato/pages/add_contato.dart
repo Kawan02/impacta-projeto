@@ -18,6 +18,7 @@ class AddContatosPage extends StatelessWidget {
   final TextEditingController controllerNotas = TextEditingController();
   final celularFormatter = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r"[0-9]")});
   final dataFormatter = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r"[0-9]")});
+  final controller = Get.find<AddContatoController>();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -45,8 +46,6 @@ class AddContatosPage extends StatelessWidget {
       await controller.createContato(model);
     }
   }
-
-  final controller = Get.find<AddContatoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -235,19 +234,21 @@ class AddContatosPage extends StatelessWidget {
                     init: Get.find<AddContatoController>(),
                     builder: (controller) {
                       return DropdownButtonFormField<String>(
+                        isExpanded: true,
                         padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                         elevation: 0,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        borderRadius: BorderRadius.circular(18),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
                           ),
                         ),
                         iconSize: 40,
                         icon: const Icon(Icons.arrow_drop_down),
                         itemHeight: 50,
-                        isExpanded: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Selecione um item da lista";
@@ -301,7 +302,10 @@ class AddContatosPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: controller.isLoading.value ? null : () async => await criarContato(controller),
-                          icon: const Icon(Icons.add),
+                          icon: Visibility(
+                            visible: !controller.isLoading.value,
+                            child: const Icon(Icons.done),
+                          ),
                           label: controller.isLoading.value
                               ? const Load()
                               : const Text(
