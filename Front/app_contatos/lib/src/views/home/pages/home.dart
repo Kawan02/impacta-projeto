@@ -46,16 +46,17 @@ class HomePage extends StatelessWidget {
 
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.search_rounded),
                           labelText: "Pesquisar",
                           hintText: "Pesquise por nome, sobrenome ou telefone",
                           onChanged: (value) async => await controller.filterContacts(value),
-                          suffixIcon: controller.isLoadingFilter.value
-                              ? Container(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: const CircularProgressIndicator.adaptive(),
-                                )
-                              : null,
+                          suffixIcon: Visibility(
+                            visible: controller.isLoadingFilter.value,
+                            child: Container(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: const CircularProgressIndicator.adaptive(),
+                            ),
+                          ),
                           isDense: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
@@ -88,7 +89,7 @@ class HomePage extends StatelessWidget {
                   child: Visibility(
                     visible: controller.contatos.isNotEmpty,
                     replacement: const Center(
-                      child: Text("Não tem nenhum contatos salvos"),
+                      child: Text("Contato(s) não encontrado(s)"),
                     ),
                     child: ListView.separated(
                       separatorBuilder: (_, index) => Padding(
