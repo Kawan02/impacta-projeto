@@ -25,22 +25,17 @@ class EditContatosPage extends StatelessWidget {
   final dataFormatter = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r"[0-9]")});
 
   ImageProvider<Object> imagem(String? imagem, String? imagemSelecionada) {
-    // if ((imagemSelecionada == "" && imagem == "Default") || imagemSelecionada == "") {
-    //   return const AssetImage("assets/imgs/foto.png");
-    // }
-    if (imagem == "Default") {
+    if ((imagemSelecionada!.isEmpty && imagem!.isEmpty)) {
       return const AssetImage("assets/imgs/foto.png");
     }
 
-    if (imagemSelecionada != null || imagemSelecionada!.isNotEmpty || imagemSelecionada == "") {
-      print(imagemSelecionada);
-      // return MemoryImage(base64Decode(imagem!));
-      return const AssetImage("assets/imgs/foto.png");
+    if (imagemSelecionada.isNotEmpty) {
+      return MemoryImage(base64Decode(imagemSelecionada));
     }
+
     return MemoryImage(base64Decode(imagem!));
   }
 
-  // String? image = "";
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -78,7 +73,7 @@ class EditContatosPage extends StatelessWidget {
                                 image: DecorationImage(
                                   fit: BoxFit.fill,
                                   alignment: Alignment.center,
-                                  image: imagem(controller.image.value, controller.image.value),
+                                  image: imagem(model.image, controller.image.value),
                                 ),
                               ),
                             );
@@ -227,18 +222,21 @@ class EditContatosPage extends StatelessWidget {
                   builder: (controller) {
                     return DropdownButtonFormField<String>(
                       padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
+                      isExpanded: true,
                       elevation: 0,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       borderRadius: BorderRadius.circular(18),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18),
+                          borderSide: const BorderSide(
+                            color: Colors.transparent,
+                          ),
                         ),
                       ),
                       iconSize: 40,
                       icon: const Icon(Icons.arrow_drop_down),
                       itemHeight: 50,
-                      isExpanded: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Selecione um item da lista";
@@ -306,7 +304,7 @@ class EditContatosPage extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () async {},
-                              icon: const Icon(Icons.add),
+                              icon: const Icon(Icons.done),
                               label: const Text(
                                 "Atualizar contato",
                                 style: TextStyle(color: Colors.white),
