@@ -6,6 +6,7 @@ import 'package:app_contatos/src/views/home/models/contatos_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:intl/intl.dart' as date;
 
 class AddContatosPage extends StatelessWidget {
   AddContatosPage({super.key});
@@ -34,12 +35,13 @@ class AddContatosPage extends StatelessWidget {
     ContatosModel model = ContatosModel(
       nome: controllerNome.text,
       favorito: controller.favorito.value,
-      image: controller.image.value,
+      image: controller.image.value.isEmpty ? "imageDefault" : controller.image.value,
       sobrenome: controllerSobrenome.text,
       telephone: controllerTelefone.text,
       amigo: controller.selectedItem.value,
       dtaNascimento: controllerDtaNascimento.text,
       nota: controllerNotas.text,
+      createdAt: date.DateFormat('yyyy-MM-dd:kk:mm').format(DateTime.now()),
     );
 
     if (_formKey.currentState!.validate()) {
@@ -127,7 +129,7 @@ class AddContatosPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: const Icon(Icons.delete),
-                                onPressed: () => controller.image.value = "",
+                                onPressed: () => controller.image.value = "imageDefault",
                               );
                             },
                           ),
@@ -142,6 +144,7 @@ class AddContatosPage extends StatelessWidget {
                       controller: controllerNome,
                       keyboardType: TextInputType.text,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
+                      textInputAction: TextInputAction.next,
                       validator: (controller) {
                         if (controller == null || controller.isEmpty) {
                           return "O nome é obrigátorio";
@@ -165,6 +168,7 @@ class AddContatosPage extends StatelessWidget {
                       controller: controllerSobrenome,
                       keyboardType: TextInputType.text,
                       prefixIcon: const Icon(Icons.person),
+                      textInputAction: TextInputAction.next,
                       labelText: "Sobrenome",
                       hintText: "Digite seu sobrenome",
                       isDense: true,
@@ -180,6 +184,7 @@ class AddContatosPage extends StatelessWidget {
                     child: CustomTextField(
                       controller: controllerDtaNascimento,
                       keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
                       inputFormatters: [dataFormatter],
                       prefixIcon: const Icon(Icons.calendar_month),
                       labelText: "Data",
@@ -190,26 +195,13 @@ class AddContatosPage extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  // GetX<AddContatoController>(
-                  //   init: Get.find<AddContatoController>(),
-                  //   builder: (controller) {
-                  //     return GestureDetector(
-                  //       child: Icon(
-                  //         Icons.star,
-                  //         color: !controller.favorito.value ? Colors.white : Colors.yellow,
-                  //       ),
-                  //       onTap: () => controller.favoritos(),
-                  //     );
-                  //   },
-                  // ),
-
                   // Telefone
                   Padding(
                     padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                     child: CustomTextField(
                       controller: controllerTelefone,
                       keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
                       inputFormatters: [celularFormatter],
                       validator: (controller) {
                         if (controller == null || controller.isEmpty) {
@@ -276,6 +268,7 @@ class AddContatosPage extends StatelessWidget {
                     child: CustomTextField(
                       controller: controllerNotas,
                       keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
                       labelText: "Nota",
                       hintText: "Digite uma nota para esse contato",
                       minLines: 5,

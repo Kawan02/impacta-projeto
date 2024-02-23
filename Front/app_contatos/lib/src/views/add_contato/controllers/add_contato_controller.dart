@@ -17,10 +17,9 @@ class AddContatoController extends GetxController {
   Future<void> createContato(ContatosModel model) async {
     isLoading.value = true;
     final dio = Dio();
-    await dio.post(ApiRoutes.postContatos, data: model.toJson()).then((value) async {
-      if (value.statusCode == 200) {
-        mensageria(title: "Atenção", message: "Contato criado com sucesso!", isError: false);
-
+    await dio.post(ApiRoutes.postContatos, data: model.toJson()).then((response) async {
+      if (response.statusCode == 200) {
+        await mensageria(title: "Atenção", message: "Contato criado com sucesso!", isError: false);
         await Get.offAllNamed(PagesRoutes.baseRoute);
       }
     }, onError: (error) {
