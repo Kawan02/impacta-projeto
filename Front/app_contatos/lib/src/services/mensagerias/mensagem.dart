@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-SnackbarController mensageria({
+Future mensageria({
   required String title,
   required String message,
   required bool isError,
-}) {
+}) async {
   return Get.snackbar(
     title,
     message,

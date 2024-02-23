@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   final controller = Get.find<ContatosController>();
 
   ImageProvider<Object> imagem(String? imagem) {
-    if (imagem == null || imagem.isEmpty) return const AssetImage("assets/imgs/foto.png");
+    if (imagem == null || imagem == "imageDefault") return const AssetImage("assets/imgs/foto.png");
 
     return MemoryImage(base64Decode(imagem));
   }
@@ -121,21 +121,43 @@ class HomePage extends StatelessWidget {
                               },
                               child: ListTile(
                                 title: Visibility(
-                                  visible: contatos.sobrenome != null || contatos.sobrenome!.isNotEmpty,
-                                  replacement: Text(
-                                    contatos.nome!,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
+                                  visible: contatos.sobrenome == null || contatos.sobrenome! == "",
+                                  replacement: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          "${contatos.nome} ${contatos.sobrenome}",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      // Favoritos
+                                      GetX<AddContatoController>(
+                                        init: Get.find<AddContatoController>(),
+                                        builder: (controller) {
+                                          return GestureDetector(
+                                            child: Icon(
+                                              Icons.star,
+                                              size: 20,
+                                              color: !controller.favorito.value ? Colors.white : Colors.yellow,
+                                            ),
+                                            onTap: () async => await controller.favoritos(),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   child: Row(
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          "${contatos.nome!} ${contatos.sobrenome!}",
+                                          contatos.nome!,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
                                       ),
+                                      const SizedBox(width: 5),
                                       // Favoritos
                                       GetX<AddContatoController>(
                                         init: Get.find<AddContatoController>(),
@@ -160,7 +182,7 @@ class HomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(15),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: imagem(contatos.image!),
+                                        image: imagem(contatos.image),
                                       ),
                                     ),
                                   ),
