@@ -14,7 +14,6 @@ class EditContatoController extends GetxController {
     if (opcao != null || opcao!.isNotEmpty) {
       selectedItem.value = opcao;
     }
-    // update(["favoritos"]);
   }
 
   Future<void> getImagem() async {
