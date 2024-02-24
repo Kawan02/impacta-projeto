@@ -32,9 +32,7 @@ class ContatosController extends GetxController {
 
     contatos.value = contatos.where(
       (filter) {
-        return filter.nome!.toLowerCase().contains(query.toLowerCase()) ||
-            filter.telephone!.toLowerCase().contains(query.toLowerCase()) ||
-            filter.sobrenome!.toLowerCase().contains(query.toLowerCase());
+        return filter.nome!.toLowerCase().contains(query.toLowerCase()) || filter.telephone!.toLowerCase().contains(query.toLowerCase());
       },
     ).toList();
 
