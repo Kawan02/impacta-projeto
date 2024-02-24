@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
 
   final textController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final controller = Get.find<ContatosController>();
+  final controllerFilter = Get.find<ContatosController>();
 
   ImageProvider<Object> imagem(String? imagem) {
     if (imagem == null || imagem == "imageDefault") return const AssetImage("assets/imgs/foto.png");
@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
                       child: Obx(() {
                         return CustomTextField(
                           controller: textController,
+                          textInputAction: TextInputAction.done,
                           validator: (controller) {
                             if (controller == null || controller.isEmpty) {
                               return "Esse campo é obrigatorio";
@@ -48,10 +49,10 @@ class HomePage extends StatelessWidget {
                           },
                           prefixIcon: const Icon(Icons.search_rounded),
                           labelText: "Pesquisar",
-                          hintText: "Pesquise por nome, sobrenome ou telefone",
-                          onChanged: (value) async => await controller.filterContacts(value),
+                          hintText: "Pesquise por nome ou telefone",
+                          onChanged: (value) async => await controllerFilter.filterContacts(value),
                           suffixIcon: Visibility(
-                            visible: controller.isLoadingFilter.value,
+                            visible: controllerFilter.isLoadingFilter.value,
                             child: Container(
                               padding: const EdgeInsets.only(right: 20),
                               child: const CircularProgressIndicator.adaptive(),
@@ -121,7 +122,7 @@ class HomePage extends StatelessWidget {
                               },
                               child: ListTile(
                                 title: Visibility(
-                                  visible: contatos.sobrenome == null || contatos.sobrenome! == "",
+                                  visible: contatos.sobrenome == null || contatos.sobrenome!.isEmpty,
                                   replacement: Row(
                                     children: [
                                       Flexible(
