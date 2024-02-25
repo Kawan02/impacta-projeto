@@ -1,5 +1,8 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers, prefer_is_empty
+
 import 'dart:convert';
 import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
+import 'package:app_contatos/src/services/cache_image.dart';
 import 'package:app_contatos/src/services/components/custom_text_form_field.dart';
 import 'package:app_contatos/src/services/load.dart';
 import 'package:app_contatos/src/views/add_contato/controllers/add_contato_controller.dart';
@@ -19,6 +22,20 @@ class HomePage extends StatelessWidget {
     if (imagem == null || imagem == "imageDefault") return const AssetImage("assets/imgs/foto.png");
 
     return MemoryImage(base64Decode(imagem));
+  }
+
+  ImageProvider<Object> imagemDois(String? imagem, String nome) {
+    var _result = getStorageImage(nome);
+    if (_result.length > 0) {
+      return MemoryImage(_result);
+    } else {
+      if (imagem == null || imagem == "imageDefault") return const AssetImage("assets/imgs/foto.png");
+
+      var image = base64Decode(imagem);
+
+      saveStorageImage(image, nome);
+      return MemoryImage(image);
+    }
   }
 
   @override
@@ -183,7 +200,7 @@ class HomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(15),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: imagem(contatos.image),
+                                        image: imagemDois(contatos.image, contatos.nome!),
                                       ),
                                     ),
                                   ),

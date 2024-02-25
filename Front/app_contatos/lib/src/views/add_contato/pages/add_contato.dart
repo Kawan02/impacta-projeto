@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_contatos/src/services/cache_image.dart';
 import 'package:app_contatos/src/services/components/custom_text_form_field.dart';
 import 'package:app_contatos/src/services/load.dart';
 import 'package:app_contatos/src/views/add_contato/controllers/add_contato_controller.dart';
@@ -46,6 +47,7 @@ class AddContatosPage extends StatelessWidget {
 
     if (_formKey.currentState!.validate()) {
       await controller.createContato(model);
+      saveStorageImage(base64Decode(controller.image.value), controllerNome.text);
     }
   }
 
