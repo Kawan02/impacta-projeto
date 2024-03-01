@@ -45,10 +45,43 @@ func CreateContact(c echo.Context) error {
 // FindContacts retornará todos os contatos do nosso banco de dados.
 func FindContacts(c echo.Context) error {
 	var contacts []models.Contact
-	if err := database.DB.Find(&contacts).Order("nome").Error; err != nil {
+	if err := database.DB.Order("nome").Find(&contacts).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	c.JSON(http.StatusOK, contacts)
 	return nil
+}
+
+// Atualiza um contato
+func UpdateContact(c echo.Context) error {
+
+	// Obtém o modelo se existir
+	var contact models.Contact
+
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&contact).Error; err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"Mensagem:": "Registro não encontrado!",
+			"Error:":    err.Error(),
+		})
+	}
+
+	// Validar input
+	if err := c.Bind(&contact); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"Mensagem": "Ocorreu um erro inesperado",
+			"error":    err.Error(),
+		})
+	}
+
+	if err := database.DB.Save(&contact).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"Mensagem:": "Ocorreu um erro ao salvar os dados no banco",
+			"Error:":    err.Error(),
+		})
+	}
+
+	c.JSON(http.StatusOK, echo.Map{"Contato atualizado:": contact})
+	return nil
+
 }
