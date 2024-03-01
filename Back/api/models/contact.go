@@ -1,17 +1,15 @@
 package models
 
-import "time"
-
 type Contact struct {
-	ID               uint      `json:"id" gorm:"primary_key"`
-	Nome             string    `json:"nome"`
-	Sobrenome        string    `json:"sobrenome"`
-	DataDeNascimento string    `json:"dtaNascimento"`
-	Telephone        string    `json:"telephone"`
-	Notas            string    `json:"nota"`
-	Image            string    `json:"image"`
-	Amigos           string    `json:"amigo"`
-	CreatedAt        time.Time `json:"createdAt"`
-	UpdateAt         time.Time `json:"updateAt"`
-	Favorito         bool      `json:"favorito"`
+	ID               uint   `json:"id" gorm:"primary_key"`
+	Nome             string `json:"nome,omitempty" gorm:"unique;not null" validate:"required"`
+	Sobrenome        string `json:"sobrenome,omitempty"`
+	DataDeNascimento string `json:"dtaNascimento,omitempty"`
+	Telephone        string `json:"telephone,omitempty" gorm:"unique;not null" validate:"required"`
+	Notas            string `json:"nota,omitempty"`
+	Image            string `json:"image,omitempty"`
+	Amigos           string `json:"amigo,omitempty"`
+	CreatedAt        string `json:"createdAt,omitempty"`
+	UpdateAt         string `json:"updateAt,omitempty"`
+	Favorito         bool   `json:"favorito,omitempty"`
 }

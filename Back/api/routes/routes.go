@@ -16,6 +16,7 @@ func Routes() {
 
 	route.GET("/contacts", handlers.FindContacts)
 	route.POST("/contacts", handlers.CreateContact)
+	route.PUT("/contact/:id", handlers.UpdateContact)
 
 	route.Logger.Fatal(route.Start(":8080"))
 }

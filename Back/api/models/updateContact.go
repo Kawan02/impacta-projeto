@@ -1,15 +1,13 @@
 package models
 
-import "time"
-
 type UpdateContactInput struct {
-	Nome             string    `json:"nome" binding:"required"`
-	Sobrenome        string    `json:"sobrenome" binding:"required"`
-	DataDeNascimento string    `json:"dtaNascimento" binding:"required"`
-	Notas            string    `json:"nota" binding:"required"`
-	Telephone        string    `json:"telephone" binding:"required"`
-	Image            string    `json:"image" binding:"required"`
-	Amigos           string    `json:"amigo" binding:"required"`
-	UpdateAt         time.Time `json:"updateAt" binding:"required"`
-	Favorito         bool      `json:"favorito" binding:"required"`
+	Nome             string `json:"nome,omitempty" gorm:"unique;not null" validate:"required"`
+	Sobrenome        string `json:"sobrenome,omitempty"`
+	DataDeNascimento string `json:"dtaNascimento,omitempty"`
+	Notas            string `json:"nota,omitempty"`
+	Telephone        string `json:"telephone,omitempty" gorm:"unique;not null" validate:"required"`
+	Image            string `json:"image,omitempty"`
+	Amigos           string `json:"amigo,omitempty"`
+	UpdateAt         string `json:"updateAt,omitempty" validate:"required"`
+	Favorito         bool   `json:"favorito,omitempty"`
 }
