@@ -34,14 +34,14 @@ class AddContatosPage extends StatelessWidget {
   Future<void> criarContato(AddContatoController controller) async {
     ContatosModel model = ContatosModel(
       nome: controllerNome.text,
-      favorito: controller.favorito.value,
+      favorito: controller.star(controller.favorito.value),
       image: controller.image.value.isEmpty ? "imageDefault" : controller.image.value,
       sobrenome: controllerSobrenome.text,
       telephone: controllerTelefone.text,
       amigo: controller.selectedItem.value,
       dtaNascimento: controllerDtaNascimento.text,
       nota: controllerNotas.text,
-      createdAt: date.DateFormat('yyyy-MM-dd:kk:mm').format(DateTime.now()),
+      createdAt: date.DateFormat('yyyy-MM-dd:HH:mm:ss').format(DateTime.now()),
     );
 
     if (_formKey.currentState!.validate()) {

@@ -1,4 +1,5 @@
 import 'package:app_contatos/src/routes/api_routes.dart';
+import 'package:app_contatos/src/routes/pages_routes/app_pages.dart';
 import 'package:app_contatos/src/services/mensagerias/mensagem.dart';
 import 'package:app_contatos/src/views/home/models/contatos_model.dart';
 import 'package:dio/dio.dart';
@@ -9,6 +10,7 @@ class ContatosController extends GetxController {
   final contatos = <ContatosModel>[].obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingFilter = false.obs;
+  final RxBool favorito = false.obs;
 
   Future<void> fetchUsers() async {
     isLoadingFilter.value == true ? null : isLoading.value = true;
@@ -37,5 +39,27 @@ class ContatosController extends GetxController {
     ).toList();
 
     isLoadingFilter.value = false;
+  }
+
+  Future<void> favoritos() async {
+    favorito.value = !favorito.value;
+  }
+
+  Future<void> putFavoritos(int id, bool star) async {
+    final dio = Dio();
+
+    if (id == 0) {
+      return mensageria(title: "Atenção", message: "Ocorreu um erro inesperado", isError: true);
+    }
+
+    await dio.put(ApiRoutes.putContato(id), data: ContatosModel(favorito: star).toJson()).then((response) async {
+      if (response.statusCode == 200) {
+        // await mensageria(title: "Atenção", message: "Contato atualizado com sucesso!", isError: false);
+        await Get.offAllNamed(PagesRoutes.baseRoute);
+      }
+    }, onError: (error) {
+      mensageria(title: "Atenção", message: error.toString(), isError: true);
+    });
+    isLoadingFilter.value == true ? null : isLoading.value = false;
   }
 }
