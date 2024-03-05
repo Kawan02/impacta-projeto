@@ -10,9 +10,7 @@ import 'package:get/get.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final textController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final controllerFilter = Get.find<ContatosController>();
 
   ImageProvider<Object> imagem(String? imagem) {
     if (imagem == null || imagem == "imageDefault") return const AssetImage("assets/imgs/foto.png");
@@ -27,9 +25,8 @@ class HomePage extends StatelessWidget {
   }
 
   Object tagImg(String? image) {
-    if (image == null || image.isEmpty) {
-      return "imgDefault";
-    }
+    if (image == null || image.isEmpty) return "imgDefault";
+
     return image;
   }
 
@@ -52,7 +49,8 @@ class HomePage extends StatelessWidget {
                         init: Get.find<ContatosController>(),
                         builder: (controller) {
                           return CustomTextField(
-                            controller: textController,
+                            onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                            controller: controller.searchController,
                             textInputAction: TextInputAction.done,
                             validator: (controller) {
                               if (controller == null || controller.isEmpty) {
@@ -72,11 +70,13 @@ class HomePage extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: GestureDetector(
                                 onTap: () async {
-                                  textController.clear();
-
-                                  await controller.fetchUsers();
+                                  controller.searchController.clear();
+                                  await controller.filterContacts("");
                                 },
-                                child: const Icon(Icons.close_rounded),
+                                child: Visibility(
+                                  visible: controller.searchController.text.isNotEmpty,
+                                  child: const Icon(Icons.close_rounded),
+                                ),
                               ),
                             ),
                             border: OutlineInputBorder(
