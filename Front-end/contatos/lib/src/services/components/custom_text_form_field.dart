@@ -24,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
+  final Function(PointerDownEvent)? onTapOutside;
   const CustomTextField({
     super.key,
     this.controller,
@@ -48,6 +49,7 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.focusNode,
     this.textInputAction,
+    this.onTapOutside,
   });
 
   @override
@@ -67,6 +69,7 @@ class CustomTextField extends StatelessWidget {
       autofocus: autofocus,
       initialValue: initialValue,
       onChanged: onChanged,
+      onTapOutside: onTapOutside,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         alignLabelWithHint: alignLabelWithHint,

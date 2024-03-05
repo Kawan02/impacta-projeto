@@ -3,6 +3,7 @@ import 'package:contatos/src/routes/pages_routes/app_pages.dart';
 import 'package:contatos/src/services/mensagerias/mensagem.dart';
 import 'package:contatos/src/views/home/models/contatos_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:core';
 
@@ -11,6 +12,7 @@ class ContatosController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoadingFilter = false.obs;
   final RxBool favorito = false.obs;
+  final searchController = TextEditingController();
 
   Future<void> fetchUsers() async {
     isLoading.value = true;
@@ -32,9 +34,11 @@ class ContatosController extends GetxController {
       isLoadingFilter.value = false;
     }
 
+    searchController.text = query;
+
     contatos.value = contatos.where(
       (filter) {
-        if (filter.sobrenome != null && filter.sobrenome!.isNotEmpty) {
+        if (filter.sobrenome != null) {
           return filter.nome!.toLowerCase().contains(query.toLowerCase()) ||
               filter.telephone!.toLowerCase().contains(query.toLowerCase()) ||
               filter.sobrenome!.toLowerCase().contains(query.toLowerCase());
@@ -44,6 +48,7 @@ class ContatosController extends GetxController {
     ).toList();
 
     isLoadingFilter.value = false;
+    update();
   }
 
   Future<void> favoritos() async {
