@@ -34,7 +34,7 @@ class AddContatosPage extends StatelessWidget {
   Future<void> criarContato(AddContatoController controller) async {
     ContatosModel model = ContatosModel(
       nome: controllerNome.text,
-      favorito: controller.star(controller.favorito.value),
+      favorito: controller.star(),
       image: controller.image.value.isEmpty ? "imageDefault" : controller.image.value,
       sobrenome: controllerSobrenome.text,
       telephone: controllerTelefone.text,
@@ -248,7 +248,7 @@ class AddContatosPage extends StatelessWidget {
                           return null;
                         },
                         iconEnabledColor: Colors.blue[800],
-                        hint: const Text("Adicionar a listas de favoritos"),
+                        hint: const Text("Adicionar a lista de favoritos"),
                         value: controller.selectedItem.value.isEmpty ? null : controller.selectedItem.value,
                         items: favoritosOpcoes.map(
                           (opcao) {

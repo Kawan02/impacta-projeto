@@ -41,7 +41,7 @@ class EditContatosPage extends StatelessWidget {
   Future<void> atualizarContato(EditContatoController controller) async {
     final editModel = ContatosModel(
       nome: controllerNome.text,
-      favorito: controller.favorito.value,
+      favorito: controller.star(),
       image: controller.image.value.isEmpty ? model.image! : controller.image.value,
       sobrenome: controllerSobrenome.text,
       telephone: controllerTelefone.text,
@@ -262,15 +262,7 @@ class EditContatosPage extends StatelessWidget {
                           return null;
                         },
                         iconEnabledColor: Colors.blue[800],
-                        // hint: Visibility(
-                        //   visible: model.amigo!.isEmpty,
-                        //   replacement: Text(
-                        //     model.amigo!,
-                        //     style: const TextStyle(color: Colors.white),
-                        //   ),
-                        //   child: const Text("Adicionar a listas de favoritos"),
-                        // ),
-                        hint: const Text("Adicionar a listas de favoritos"),
+                        hint: const Text("Adicionar a lista de favoritos"),
                         value: controller.selectedItem.value.isEmpty ? model.amigo : controller.selectedItem.value,
                         items: favoritosOpcoes.map(
                           (opcao) {
