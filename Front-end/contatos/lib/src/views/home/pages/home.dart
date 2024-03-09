@@ -62,9 +62,7 @@ class HomePage extends StatelessWidget {
                             prefixIcon: const Icon(Icons.search_rounded),
                             labelText: "Pesquisar",
                             hintText: "Pesquise por nome, telefone ou sobrenome",
-                            onChanged: (value) async {
-                              await controller.filterContacts(value);
-                            },
+                            onChanged: (value) async => await controller.filterContacts(value),
                             isDense: true,
                             suffixIcon: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -122,7 +120,7 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       scrollDirection: Axis.vertical,
                       physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
+                      itemBuilder: (_, index) {
                         final contatos = controller.contatos[index];
 
                         return Hero(
@@ -235,7 +233,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.small(
+      floatingActionButton: FloatingActionButton(
         heroTag: "btnAddContato",
         hoverColor: Colors.blue[800],
         backgroundColor: Colors.blue[800],
