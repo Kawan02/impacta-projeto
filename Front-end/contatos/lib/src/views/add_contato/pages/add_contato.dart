@@ -24,7 +24,7 @@ class AddContatosPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   ImageProvider<Object> imagem(String? imagem) {
-    if (imagem == null || imagem.isEmpty) {
+    if (imagem!.isEmpty || imagem == "imageDefault") {
       return const AssetImage("assets/imgs/foto.png");
     }
 
@@ -128,8 +128,8 @@ class AddContatosPage extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: const Icon(Icons.delete),
                                 onPressed: () => controller.image.value = "imageDefault",
+                                child: const Icon(Icons.delete),
                               );
                             },
                           ),
