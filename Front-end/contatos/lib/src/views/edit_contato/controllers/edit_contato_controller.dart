@@ -29,12 +29,19 @@ class EditContatoController extends GetxController {
     });
 
     isLoading.value = false;
+    update();
   }
 
   void escolha(String? opcao) {
     if (opcao != null || opcao!.isNotEmpty) {
       selectedItem.value = opcao;
     }
+  }
+
+  bool star() {
+    if (selectedItem.value == "Sim") return favorito.value = true;
+
+    return favorito.value = false;
   }
 
   Future<void> getImagem() async {

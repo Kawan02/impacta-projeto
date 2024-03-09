@@ -26,6 +26,7 @@ class AddContatoController extends GetxController {
       mensageria(title: "Atenção", message: error.toString(), isError: true);
     });
     isLoading.value = false;
+    update();
   }
 
   String escolha(String? opcao) {
@@ -34,10 +35,10 @@ class AddContatoController extends GetxController {
     return "";
   }
 
-  bool star(bool star) {
-    if (selectedItem.value == "Sim") return star = true;
+  bool star() {
+    if (selectedItem.value == "Sim") return favorito.value = true;
 
-    return star = false;
+    return favorito.value = false;
   }
 
   Future<void> getImagem() async {
