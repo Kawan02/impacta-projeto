@@ -1,6 +1,8 @@
 import 'package:contatos/src/views/home/pages/favoritos.dart';
 import 'package:contatos/src/views/home/pages/home.dart';
+import 'package:contatos/src/views/navigator/controllers/navigator_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
@@ -10,9 +12,6 @@ class NavigatorPage extends StatefulWidget {
 }
 
 class _NavigatorPageState extends State<NavigatorPage> {
-  int currentIndex = 0;
-  final pageController = PageController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,43 +42,52 @@ class _NavigatorPageState extends State<NavigatorPage> {
         centerTitle: true,
         backgroundColor: Colors.grey[800],
       ),
-      body: PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageController,
-        children: [
-          HomePage(),
-          const FavoritosPage(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-            pageController.animateToPage(
-              value,
-              duration: const Duration(milliseconds: 700),
-              curve: Curves.linear,
-            );
-          });
+      body: GetBuilder<NavigatorController>(
+        init: Get.find<NavigatorController>(),
+        builder: (controller) {
+          return PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: controller.pageController.value,
+            children: [
+              HomePage(),
+              const FavoritosPage(),
+            ],
+          );
         },
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey[800],
-        unselectedItemColor: Colors.white.withAlpha(120),
-        selectedItemColor: Colors.blue[600],
-        elevation: 0,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Contatos",
-            tooltip: "Contatos",
+      ),
+      bottomNavigationBar: NavigationBarTheme(
+        data: NavigationBarThemeData(
+          labelTextStyle: MaterialStateProperty.all(
+            const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "Favoritos",
-            tooltip: "Favoritos",
-          ),
-        ],
+        ),
+        child: GetBuilder<NavigatorController>(
+          init: Get.find<NavigatorController>(),
+          builder: (controller) {
+            return NavigationBar(
+              selectedIndex: controller.currentIndex.value,
+              backgroundColor: Colors.grey[800],
+              animationDuration: const Duration(milliseconds: 2000),
+              indicatorColor: Colors.blue[800],
+              elevation: 0,
+              onDestinationSelected: (value) => controller.getMenu(value),
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.person_3_outlined, size: 30),
+                  selectedIcon: Icon(Icons.person_3, size: 30),
+                  label: "Contatos",
+                  tooltip: "Contatos",
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.favorite_border_outlined, size: 30),
+                  selectedIcon: Icon(Icons.favorite, size: 30),
+                  label: "Favoritos",
+                  tooltip: "Favoritos",
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
