@@ -162,7 +162,9 @@ class HomePage extends StatelessWidget {
                                             color: favorito(contatos.favorito),
                                           ),
                                           onTap: () async {
-                                            if (contatos.favorito == null) return await controller.putFavoritos(contatos.id!, false);
+                                            if (contatos.favorito == null) {
+                                              return await controller.putFavoritos(contatos.id!, false);
+                                            }
 
                                             await controller.putFavoritos(contatos.id!, contatos.favorito!);
                                           },
@@ -187,7 +189,9 @@ class HomePage extends StatelessWidget {
                                             color: favorito(contatos.favorito),
                                           ),
                                           onTap: () async {
-                                            if (contatos.favorito == null) return await controller.putFavoritos(contatos.id!, false);
+                                            if (contatos.favorito == null) {
+                                              return await controller.putFavoritos(contatos.id!, false);
+                                            }
 
                                             await controller.putFavoritos(contatos.id!, contatos.favorito!);
                                           },
