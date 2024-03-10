@@ -159,11 +159,12 @@ class HomePage extends StatelessWidget {
                                           child: Icon(
                                             Icons.star,
                                             size: 20,
-                                            color: favorito(controller.favorito.value),
+                                            color: favorito(contatos.favorito),
                                           ),
                                           onTap: () async {
-                                            await controller.favoritos();
-                                            await controller.putFavoritos(contatos.id!, controller.favorito.value);
+                                            if (contatos.favorito == null) return await controller.putFavoritos(contatos.id!, false);
+
+                                            await controller.putFavoritos(contatos.id!, contatos.favorito!);
                                           },
                                         ),
                                       ],
@@ -180,8 +181,16 @@ class HomePage extends StatelessWidget {
                                         const SizedBox(width: 5),
                                         // Favoritos
                                         GestureDetector(
-                                          child: Icon(Icons.star, size: 20, color: favorito(controller.favorito.value)),
-                                          onTap: () async => controller.favoritos(),
+                                          child: Icon(
+                                            Icons.star,
+                                            size: 20,
+                                            color: favorito(contatos.favorito),
+                                          ),
+                                          onTap: () async {
+                                            if (contatos.favorito == null) return await controller.putFavoritos(contatos.id!, false);
+
+                                            await controller.putFavoritos(contatos.id!, contatos.favorito!);
+                                          },
                                         ),
                                       ],
                                     ),
