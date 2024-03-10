@@ -79,8 +79,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
                   tooltip: "Contatos",
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.favorite_border_outlined, size: 30),
-                  selectedIcon: Icon(Icons.favorite, size: 30),
+                  icon: Icon(Icons.star_border, size: 30),
+                  selectedIcon: Icon(Icons.star, size: 30),
                   label: "Favoritos",
                   tooltip: "Favoritos",
                 ),

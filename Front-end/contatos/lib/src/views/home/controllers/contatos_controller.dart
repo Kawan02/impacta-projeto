@@ -61,15 +61,12 @@ class ContatosController extends GetxController {
     if (id == 0) {
       return mensageria(title: "Atenção", message: "Ocorreu um erro inesperado", isError: true);
     }
+    favorito.value = !star;
 
-    await dio.put(ApiRoutes.putContato(id), data: ContatosModel(favorito: star).toJson()).then((response) async {
-      if (response.statusCode == 200) {
-        // await mensageria(title: "Atenção", message: "Contato atualizado com sucesso!", isError: false);
-        await Get.offAllNamed(PagesRoutes.baseRoute);
-      }
+    await dio.put(ApiRoutes.putContato(id), data: ContatosModel(favorito: favorito.value).toJson()).then((response) async {
+      if (response.statusCode == 200) return await Get.offAllNamed(PagesRoutes.baseRoute);
     }, onError: (error) {
       mensageria(title: "Atenção", message: error.toString(), isError: true);
     });
-    isLoadingFilter.value == true ? null : isLoading.value = false;
   }
 }
