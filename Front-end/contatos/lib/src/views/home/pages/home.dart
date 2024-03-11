@@ -6,6 +6,7 @@ import 'package:contatos/src/views/home/controllers/contatos_controller.dart';
 import 'package:contatos/src/views/edit_contato/pages/edit_contatos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -104,8 +105,13 @@ class HomePage extends StatelessWidget {
               }
 
               return Expanded(
-                child: RefreshIndicator(
+                child: LiquidPullToRefresh(
                   onRefresh: () async => await controller.fetchUsers(),
+                  color: Colors.blue[800],
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  backgroundColor: Colors.deepPurple[200],
+                  animSpeedFactor: 2,
+                  showChildOpacityTransition: true,
                   child: Visibility(
                     visible: controller.contatos.isNotEmpty,
                     replacement: const Center(
