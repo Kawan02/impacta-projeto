@@ -221,47 +221,6 @@ class AddContatosPage extends StatelessWidget {
                     ),
                   ),
 
-                  // DropDown de Favoritos
-                  GetX<AddContatoController>(
-                    init: Get.find<AddContatoController>(),
-                    builder: (controller) {
-                      return DropdownButtonFormField<String>(
-                        isExpanded: true,
-                        padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
-                        elevation: 0,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                        iconSize: 40,
-                        icon: const Icon(Icons.arrow_drop_down),
-                        itemHeight: 50,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Selecione um item da lista";
-                          }
-                          return null;
-                        },
-                        iconEnabledColor: Colors.blue[800],
-                        hint: const Text("Adicionar a lista de favoritos"),
-                        value: controller.selectedItem.value.isEmpty ? null : controller.selectedItem.value,
-                        items: favoritosOpcoes.map(
-                          (opcao) {
-                            return DropdownMenuItem<String>(
-                              value: opcao,
-                              child: Text(opcao),
-                            );
-                          },
-                        ).toList(),
-                        onChanged: (value) => controller.escolha(value),
-                      );
-                    },
-                  ),
                   // Notas
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
