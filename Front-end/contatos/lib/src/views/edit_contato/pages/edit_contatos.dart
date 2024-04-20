@@ -45,7 +45,6 @@ class EditContatosPage extends StatelessWidget {
       image: controller.image.value.isEmpty ? model.image! : controller.image.value,
       sobrenome: controllerSobrenome.text,
       telephone: controllerTelefone.text,
-      amigo: controller.selectedItem.value.isEmpty ? model.amigo : controller.selectedItem.value,
       dtaNascimento: controllerDtaNascimento.text,
       nota: controllerNotas.text,
       updateAt: date.DateFormat('yyyy-MM-dd:HH:mm:ss').format(DateTime.now()),
