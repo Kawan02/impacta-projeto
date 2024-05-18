@@ -15,8 +15,11 @@ func Routes() {
 	route.Use(middleware.CORS())
 
 	route.GET("/contacts", handlers.FindContacts)
+	route.GET("/contactsFavorite", handlers.FindContactsFavorite)
 	route.POST("/contacts", handlers.CreateContact)
 	route.PUT("/contact/:id", handlers.UpdateContact)
+	route.DELETE("/contact/:id", handlers.DeleteContact)
+	route.DELETE("/contacts", handlers.DeleteContacts)
 
 	route.Logger.Fatal(route.Start(":8080"))
 }
