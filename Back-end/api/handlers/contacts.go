@@ -53,6 +53,21 @@ func FindContacts(c echo.Context) error {
 	return nil
 }
 
+// Encontra todos os contatos favoritos
+func FindContactsFavorite(c echo.Context) error {
+	var contact []models.Contact
+
+	if err := database.DB.Order("nome").Where("favorito = ?", true).Find(&contact).Error; err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"Mensagem": "Nenhum contato encontrado!",
+			"error":    err.Error(),
+		})
+	}
+
+	c.JSON(http.StatusOK, contact)
+	return nil
+}
+
 // Atualiza um contato
 func UpdateContact(c echo.Context) error {
 
@@ -84,4 +99,41 @@ func UpdateContact(c echo.Context) error {
 	c.JSON(http.StatusOK, echo.Map{"Contato atualizado:": contact})
 	return nil
 
+}
+
+// DeleteContact exclui um contato
+func DeleteContact(c echo.Context) error {
+	var book models.Contact
+
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"Mensagem": "Registro não encontrado!",
+			"Error":    err.Error(),
+		})
+
+	}
+
+	if err := database.DB.Delete(&book).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	c.JSON(http.StatusOK, nil)
+	return nil
+}
+
+// DeleteContacts vai excluir todos os contatos do nosso banco de dados.
+func DeleteContacts(c echo.Context) error {
+	var contacts []models.Contact
+	if err := database.DB.Find(&contacts).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	if err := database.DB.Delete(&contacts).Error; err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"Mensagem": "Não há nenhum contato salvo",
+			"Error":    err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, nil)
+	return nil
 }

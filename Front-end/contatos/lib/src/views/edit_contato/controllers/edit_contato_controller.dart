@@ -12,6 +12,7 @@ class EditContatoController extends GetxController {
   RxString selectedItem = "".obs;
   RxString image = "".obs;
   RxBool isLoading = false.obs;
+  RxBool isLoadingDelete = false.obs;
   final RxBool favorito = false.obs;
 
   Future<void> putContato(int id, ContatosModel model) async {
@@ -29,6 +30,24 @@ class EditContatoController extends GetxController {
     });
 
     isLoading.value = false;
+    update();
+  }
+
+  Future<void> deleteContato(int id) async {
+    isLoadingDelete.value = true;
+
+    final dio = Dio();
+
+    await dio.delete(ApiRoutes.deleteContato(id)).then((response) async {
+      if (response.statusCode == 200) {
+        await mensageria(title: "Atenção", message: "Contato excluido com sucesso!", isError: false);
+        await Get.offAllNamed(PagesRoutes.baseRoute);
+      }
+    }, onError: (error) {
+      mensageria(title: "Atenção", message: error.toString(), isError: true);
+    });
+
+    isLoadingDelete.value = false;
     update();
   }
 

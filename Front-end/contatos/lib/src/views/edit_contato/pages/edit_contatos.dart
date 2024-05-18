@@ -55,11 +55,43 @@ class EditContatosPage extends StatelessWidget {
     }
   }
 
+  Future<void> excluirContato() async {
+    final controller = EditContatoController();
+    await controller.deleteContato(model.id!);
+  }
+
   Object tagImg(String? image) {
     if (image == null || image.isEmpty) {
       return "imgDefault";
     }
     return image;
+  }
+
+  Future<void> _showDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text("Excluir contato"),
+          content: Text(
+            "Tem certeza que deseja excluir o contato ${model.nome}? Essa ação é irreversível",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async => await excluirContato(),
+              child: const Text("Sim"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Não"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -292,12 +324,17 @@ class EditContatosPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(18),
                                   ),
                                 ),
-                                onPressed: () async {},
-                                icon: const Icon(Icons.delete),
-                                label: const Text(
-                                  "Excluir contato",
-                                  style: TextStyle(color: Colors.white),
+                                onPressed: () async => await _showDialog(context),
+                                icon: Visibility(
+                                  visible: !controller.isLoadingDelete.value,
+                                  child: const Icon(Icons.delete),
                                 ),
+                                label: controller.isLoadingDelete.value
+                                    ? const Load()
+                                    : const Text(
+                                        "Excluir contato",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                               ),
                             ),
                           ],
