@@ -1,8 +1,10 @@
+import 'package:contatos/src/views/home/controllers/contatos_controller.dart';
 import 'package:contatos/src/views/home/pages/favoritos.dart';
 import 'package:contatos/src/views/home/pages/home.dart';
 import 'package:contatos/src/views/navigator/controllers/navigator_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
@@ -17,23 +19,27 @@ class _NavigatorPageState extends State<NavigatorPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: FloatingActionButton.small(
-              hoverColor: Colors.red.shade600,
-              backgroundColor: Colors.red.shade600,
-              splashColor: Colors.red.shade600,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              onPressed: () {
-                // Botão de excluir todos os contatos
-              },
-              tooltip: "Excluir todos os contatos?",
-              child: const Icon(Icons.delete),
-            ),
-          ),
+          GetBuilder<ContatosController>(
+            builder: (controller) {
+              return Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: FloatingActionButton.small(
+                  hoverColor: Colors.red.shade600,
+                  backgroundColor: Colors.red.shade600,
+                  splashColor: Colors.red.shade600,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  onPressed: () async {
+                    await controller.deleteContatos();
+                  },
+                  tooltip: "Excluir todos os contatos?",
+                  child: const Icon(Icons.delete),
+                ),
+              );
+            },
+          )
         ],
         title: const Text(
           "Agenda de Contatos",
@@ -50,7 +56,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
             controller: controller.pageController.value,
             children: [
               HomePage(),
-              const FavoritosPage(),
+              FavoritosPage(),
             ],
           );
         },
