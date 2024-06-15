@@ -25,7 +25,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: PagesRoutes.favoritoRoute,
-      page: () => const FavoritosPage(),
+      page: () => FavoritosPage(),
     ),
   ];
 }

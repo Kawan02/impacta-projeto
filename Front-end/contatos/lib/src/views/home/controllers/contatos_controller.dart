@@ -9,16 +9,27 @@ import 'dart:core';
 
 class ContatosController extends GetxController {
   final contatos = <ContatosModel>[].obs;
-  RxBool isLoading = false.obs;
-  RxBool isLoadingFilter = false.obs;
+  final RxBool isLoading = false.obs;
+  final RxBool isLoadingFilter = false.obs;
   final RxBool favorito = false.obs;
   final searchController = TextEditingController();
 
   Future<void> fetchUsers() async {
     isLoading.value = true;
     final dio = Dio();
-
     await dio.get(ApiRoutes.getContatos).then((response) {
+      final List<dynamic> jsonList = response.data;
+      contatos.assignAll(jsonList.map((json) => ContatosModel.fromJson(json)).toList());
+    }, onError: (error) {
+      mensageria(title: "Atenção", message: error.toString(), isError: true);
+    });
+    isLoading.value = false;
+  }
+
+  Future<void> fetchUsersFavorites() async {
+    isLoading.value = true;
+    final dio = Dio();
+    await dio.get(ApiRoutes.getContatosFavoritos).then((response) {
       final List<dynamic> jsonList = response.data;
       contatos.assignAll(jsonList.map((json) => ContatosModel.fromJson(json)).toList());
     }, onError: (error) {
@@ -68,5 +79,22 @@ class ContatosController extends GetxController {
     }, onError: (error) {
       mensageria(title: "Atenção", message: error.toString(), isError: true);
     });
+  }
+
+  Future<void> deleteContatos() async {
+    isLoading.value = true;
+
+    final dio = Dio();
+
+    await dio.delete(ApiRoutes.deleteContatos).then((response) async {
+      if (response.statusCode == 200) {
+        await mensageria(title: "Atenção", message: "Contatos excluidos com sucesso!", isError: false);
+        await Get.offAllNamed(PagesRoutes.baseRoute);
+      }
+    }, onError: (error) {
+      mensageria(title: "Atenção", message: error.toString(), isError: true);
+    });
+
+    isLoading.value = false;
   }
 }
